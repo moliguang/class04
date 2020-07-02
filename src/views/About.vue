@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <div>这是about页面</div>
   </div>
 </template>
