@@ -1,5 +1,12 @@
 <template>
+
   <div class="find">
+    <!-- 轮播图 -->
+    <van-swipe class="find_banner" :autoplay="3000" indicator-color="white">
+      <van-swipe-item v-for="(item,index) in bannerList" :key="index">
+        <img style="width: 100%;display: block;" :src="item.image_head_info+item.image" alt @click="bannerClick(item)" />
+      </van-swipe-item>
+    </van-swipe>
     <!-- 新手练习场 -->
     <div class="find_practice">
       <panel-header title="新手练习场" :need-right-btn="false"></panel-header>
@@ -21,27 +28,28 @@
       <template v-for="(item,index) in list">
         <cgds-item :key="index" :item="item"></cgds-item>
       </template>
-      <div :class="{game_end:item.now_status === '2'}" class="find_cgds_content" v-for="(item,index) in list" :key="index">
-        <div v-if="item.joinFlag === '0'" class="find_cgds_join">
-          <img class="find_cgds_join_img" src="images/competition_join.png" alt />
-        </div>
-        <div class="left">
-          <img class="left_img" :src="item.image_head_info + item.image" alt />
-        </div>
-        <div class="right">
-          <div class="text1 right_t">{{item.act_name}}</div>
-          <div class="text2 right_des">{{item.act_detail}}</div>
-          <div class="text2 right_num">
-            {{item.joinNumber}}人参赛
-            <div class="clock">
-              <div class="clock_box">
-                <img class="clock_img" src="images/icon_clock.png" alt />
-                <div>{{ item.enter_begin_date }}-{{ item.activity_end_date }}</div>
-              </div>
+      <empty v-if="list.length === 0"></empty>
+      <!-- <div :class="{game_end:item.now_status === '2'}" class="find_cgds_content" v-for="(item,index) in list" :key="index">
+      <div v-if="item.joinFlag === '0'" class="find_cgds_join">
+        <img class="find_cgds_join_img" src="images/competition_join.png" alt />
+      </div>
+      <div class="left">
+        <img class="left_img" :src="item.image_head_info + item.image" alt />
+      </div>
+      <div class="right">
+        <div class="text1 right_t">{{item.act_name}}</div>
+        <div class="text2 right_des">{{item.act_detail}}</div>
+        <div class="text2 right_num">
+          {{item.joinNumber}}人参赛
+          <div class="clock">
+            <div class="clock_box">
+              <img class="clock_img" src="images/icon_clock.png" alt />
+              <div>{{ item.enter_begin_date }}-{{ item.activity_end_date }}</div>
             </div>
           </div>
         </div>
       </div>
+    </div> -->
     </div>
 
     <!-- 模拟交易榜单 -->
@@ -50,6 +58,7 @@
       <template v-for="(item,index) in rankList">
         <rank-item :key="index" :index="index" :item="item" :field-eng-name="field_eng_name" @allClick="goCombinationDetail" />
       </template>
+      <empty v-if="rankList.length === 0"></empty>
     </div>
 
     <!-- ad -->
@@ -68,16 +77,18 @@
 </template>
 
 <script>
-import { F700108, F700105, F700125, F700126 } from "@/service/api.js";
+import { F700108, F700105, F700125, F700126, F700110 } from "@/service/api.js";
 import PanelHeader from "@/components/PanelHeader.vue";
 import RankItem from "@/components/RankItem.vue";
 import CgdsItem from "@/components/CgdsItem.vue";
+import Empty from "@/components/Empty.vue";
 export default {
   name: "Find",
   components: {
     PanelHeader,
     RankItem,
     CgdsItem,
+    Empty,
   },
   data () {
     return {
@@ -85,6 +96,7 @@ export default {
       field_eng_name: "profit_all", // 累计收益率
       rankIsEmpty: true,
       rankList: [],
+      bannerList: [],
       items: [
         {
           message: "bar",
@@ -140,13 +152,22 @@ export default {
       // })
     },
     init () {
-      Promise.all([this.F700108(), this.F700105(), this.getRankList()])
+      Promise.all([this.F700108(), this.F700105(), this.getRankList(), this.F700110()])
         .then(result => {
           console.log("请求成功=", result);
         })
         .catch(e => {
           console.log("请求失败=", e);
         });
+    },
+    // 获取banner图片
+    async F700110 () {
+
+      let res = await F700110({ channel_type: "2" });
+      if (res.data.code === 0) {
+        this.bannerList = res.data.data;
+        return res;
+      }
     },
     // 获取练习场信息
     async F700108 () {
@@ -219,6 +240,9 @@ export default {
 
 <style lang="scss">
 .find {
+  &_banner {
+    line-height: 138px;
+  }
   &_practice {
     background-color: #fff;
     &_content {

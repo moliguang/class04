@@ -26,4 +26,5 @@ export const F700105 = params => axios.post('/simulate/noauth/F700105', formUtil
 export const F700125 = params => axios.post('/simulate/noauth/F700125', formUtil(params));
 
 // 综合榜单
-export const F700126 = params => axios.post('/simulate/noauth/F700126', formUtil(params));
+export const F700126 = params => axios.post('/simulate/noauth/F700126', formUtil(params));// 获取首页广告图片
+export const F700110 = params => axios.post('/simulate/noauth/F700110', formUtil(params));
