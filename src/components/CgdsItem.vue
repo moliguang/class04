@@ -1,40 +1,37 @@
 <template>
   <div class="cgds_item">
-        <!-- v-for="(item,index) in list" -->
+    <!-- v-for="(item,index) in list" -->
 
-    <div
-        :class="{game_end:item.now_status === '2'}"
-        class="cgds_item_cgds_content"
-      >
-        <div v-if="item.joinFlag === '0'" class="cgds_item_cgds_join">
-          <img class="find_cgds_join_img" src="images/competition_join.png" alt />
-        </div>
-        <div class="left">
-          <img class="left_img" :src="item.image_head_info + item.image" alt />
-        </div>
-        <div class="right">
-          <div class="text1 right_t">{{item.act_name}}</div>
-          <div class="text2 right_des">{{item.act_detail}}</div>
-          <div class="text2 right_num">
-            {{item.joinNumber}}人参赛
-            <div class="clock">
-              <div class="clock_box">
-                <img class="clock_img" src="images/icon_clock.png" alt />
-                <div>{{ item.enter_begin_date }}-{{ item.activity_end_date }}</div>
-              </div>
+    <div :class="{game_end:item.now_status === '2'}" class="cgds_item_cgds_content">
+      <div v-if="item.joinFlag === '0'" class="cgds_item_cgds_join">
+        <img class="find_cgds_join_img" src="images/competition_join.png" alt />
+      </div>
+      <div class="left">
+        <img class="left_img" :src="item.image_head_info + item.image" alt />
+      </div>
+      <div class="right">
+        <div class="text1 right_t">{{item.act_name}}</div>
+        <div class="text2 right_des">{{item.act_detail}}</div>
+        <div class="text2 right_num">
+          {{item.joinNumber}}人参赛
+          <div class="clock">
+            <div class="clock_box">
+              <img class="clock_img" src="images/icon_clock.png" alt />
+              <div>{{ item.enter_begin_date | vG002(".")}}-{{ item.activity_end_date | vG002(".") }}</div>
             </div>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  name:'CgdsItem',
-  props:{
-    item:{
-      type:Object,
-      default:() => {
+  name: 'CgdsItem',
+  props: {
+    item: {
+      type: Object,
+      default: () => {
         return {}
       }
     }
@@ -42,7 +39,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.cgds_item{
+.cgds_item {
   &_cgds {
     margin-top: 15px;
     background-color: #fff;

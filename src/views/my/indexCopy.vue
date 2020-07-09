@@ -1,93 +1,61 @@
 <template>
   <div class="my">
-
     <div class="my_head_box">
       <div class="my_head">
         <div class="my_head_left">
-          <img :src="comlist.acc_image_path" />
-          <span>{{comlist.acc_alias}}</span>
+          <img src="images/man1.png" alt />
+          <span>{{name}}</span>
         </div>
         <div class="my_head_right">
           <div>
-            <span>{{comlist.subscr_num}}</span>
+            <span>{{book}}</span>
             <span>订阅</span>
           </div>
           <div>
-            <span>{{comlist.follower_num}}</span>
+            <span>{{fans}}</span>
             <span>粉丝</span>
           </div>
         </div>
       </div>
       <div class="my_head_tip">
         <img src="images/icon_lb.png" alt />
-        累计收益率最高组合：{{comlist.group_name}} {{comlist | vG001("profit_all")}}
+        累计收益率最高组合：{{money}}
       </div>
     </div>
 
     <div class="my_list">
-      <div v-for="(item,index) in list" :key="index" class="my_list_box">
-        <img :src="item.url">
-        <span>{{item.name}}</span>
-      </div>
+      <van-grid :column-num="3">
+        <van-grid-item v-for="(item,index) in list" :key="index">
+          <div class="my_list_wrap">
+            <van-image class="img" :src="item.url" />
+            <div class="my_list_box_n">{{item.name}}</div>
+          </div>
+        </van-grid-item>
+      </van-grid>
     </div>
-    <div class="my_com">
-      <panel-header title="我的组合" @rightClick="combMore"></panel-header>
-
-      <template v-for="(item,index) in combList">
-        <comb :key="index" :item="item" />
-      </template>
-
+    <div class="my_comb">
+      <panel-header title="我的组合"></panel-header>
+      <Comb></Comb>
     </div>
-    <div class="my_index-invitation">
-      <div v-for="(item, index) in data" :key="index" class="my_index-invitation_wrap" :style="{ background: item.bgcolor}" @click="jumpDetail(item)">
-        <img :src="item.icon">
-        <span class="my_index-invitation_wrap__label">{{ item.label }}</span>
-        <span class="my_index-invitation_wrap__desc">{{ item.desc }}</span>
-      </div>
-    </div>
-
   </div>
 </template>
 <script>
-import { zztLoginByWebAccount, F700104, F700116, F700113, } from "@/service/api.js";
 import PanelHeader from "@/components/PanelHeader.vue";
 import Comb from "@/components/Comb.vue";
-import Conten from "@/components/Conten.vue";
+import { zztLoginByWebAccount, F700104, F700116 } from "@/service/api.js";
 export default {
   name: "My",
   components: {
     PanelHeader,
-    Comb,
-    Conten,
+    Comb
   },
-  data () {
+  data() {
     return {
-      data: [{
-        label: '邀请好友',
-        value: 'invitation',
-        desc: '邀请好友获大礼',
-        icon: 'images/invitation.png',
-        bgcolor: '#FFF5EE'
-      }, {
-        label: '我的奖励',
-        value: 'reward',
-        desc: '活动奖品记录',
-        icon: 'images/reward.png',
-        bgcolor: '#EDF3FE'
-      }, {
-        label: '我的积分',
-        value: 'integral',
-        desc: '查看获取积分',
-        icon: 'images/integral.png',
-        bgcolor: '#FCF1F9'
-      }],
-
       book: 999,
       fans: 999,
       name: "爱喝啤酒的狐狸",
       money: "2323.00%",
       combList: [],
-      comlist: [],
       list: [
         {
           name: "模拟买入",
@@ -266,28 +234,13 @@ export default {
       ]
     };
   },
-
-
-
-  mounted () {
+  mounted() {
     this.init();
   },
   methods: {
-
-    combMore () {
-      this.$router.push({
-        name: "CombList"
-      })
-    },
-
-    init () {
-      let a = [1, 2];
-      let b = [3, 4];
-      a = a.concat(b);
-      console.log(a)
-
+    init() {
       Promise.all([
-        this.F700116(), this.F700113(),
+        this.F700116()
       ])
         .then(result => {
           console.log("请求成功=", result);
@@ -296,52 +249,28 @@ export default {
           console.log("请求失败=", e);
         });
     },
+
     // 获取我的组合
-    async F700113 () {
-      const web_account = sessionStorage.getItem('web_account');
-      const params = {
-        channel_type: "2",
-        target_web_account: web_account,
-      };
-      let res = await F700113(params);
-      if (res.data.code === 0) {
-        this.comlist = res.data.data;
-      }
-    },
-    async F700116 () {
-      //获取保存在sessionStorage里面缓存的数据web_account;
+    async F700116() {
+      // 获取保存在sessionStorage里面的缓存数据web_account;
       const web_account = sessionStorage.getItem('web_account');
       const params = {
         channel_type: "2",
         web_account: web_account,
         page: 1,
-        size: 3,
+        size: 3
       };
       let res = await F700116(params);
-      // let res = await F700116({channel_type: "2",web_account: web_account,page: 1,size: 3}); // 这里的传参
+      // let res = await F700116({channel_type: "2",web_account: web_account,page: 1,size: 3}); // 这里的传参数的形式和上面的方式是一样的（上面之所以提取出去是因为这样写的话参数太多了不好看）
       if (res.data.code === 0) {
         this.combList = res.data.data.data;
         return res;
       } else if (res.data.code === 100016) {
         this.combList = [];
       }
-    },
-    //账户信息
-    async ztLoginByWebAccount () {
-      let res = await ztLoginByWebAccount({
-        channel_type: "2",
-        web_account: "",
-        target_web_account: "",
-        acc_alias: "",
-      });
-      if (res.data.code === 0) {
-        this.list = res.data.data || [];
-        return res;
-      }
-    },
+    }
   }
-}
-
+};
 </script>
 <style lang="scss">
 .my {
@@ -397,70 +326,37 @@ export default {
   }
   &_list {
     background-color: #ffffff;
-    width: 100%;
-    height: 218px;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    box-sizing: border-box;
     margin-top: 10px;
-    &_box {
-      display: flex;
-      width: calc(33.33% - 11.5px);
+    padding: 18px 15px 25px;
+    padding: &_wrap {
+      width: 95%;
       height: 80px;
-      flex-wrap: wrap;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      box-shadow: 0px 0px 10px 0px red;
+    }
+    &_box {
+      width: 100px;
+      height: 80px;
+      background: rgba(255, 255, 255, 1);
       box-shadow: 0px 0px 10px 0px rgba(218, 226, 229, 0.5);
-      img {
-        width: 26px;
-        height: 26px;
-      }
-      span {
-        padding-top: 9px;
-        font-size: 12px;
-        color: #222;
-      }
+    }
+    img {
+      width: 26px;
+      height: 26px;
+      margin-bottom: 8px;
+    }
+    &_n {
+      width: 48px;
+      height: 17px;
+      font-size: 12px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(34, 34, 34, 1);
+      line-height: 17px;
     }
   }
-  &_com {
+  &_comb {
     background-color: #fff;
     margin-top: 10px;
-  }
-  &_index-invitation {
-    width: 100%;
-    background: #fff;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    box-sizing: border-box;
-    &_wrap {
-      display: flex;
-      flex-direction: column;
-      width: 100px;
-      height: 110px;
-      align-items: center;
-      justify-content: center;
-      img {
-        width: 47px;
-        height: 41px;
-      }
-      span {
-        font-family: PingFangSC-Regular;
-      }
-      &__label {
-        font-size: 16px;
-        color: #f1710a;
-        padding-top: 9px;
-      }
-      &__desc {
-        font-size: 12px;
-        color: #999;
-      }
-    }
   }
 }
 </style>

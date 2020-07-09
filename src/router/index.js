@@ -26,6 +26,26 @@ const routes = [
         name: 'My',
         component: () => import('../views/my/index.vue')
       },
+      // {
+      //   path: '/test',
+      //   name: 'My',
+      //   component: () => import('../views/my/indexCopy.vue')
+      // },
+      {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/my/login.vue')
+      },
+      {
+        path: '/my/comb-list',
+        name: 'CombList',
+        component: () => import('../views/my/CombList.vue')
+      },
+      {
+        path: '/my/com',
+        name: 'Com',
+        component: () => import('../views/my/Com.vue')
+      },
     ]
   }
 

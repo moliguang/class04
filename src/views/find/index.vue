@@ -137,19 +137,17 @@ export default {
     this.init();
   },
   methods: {
+
     hotMore () { },
     adClick (index) { },
     goCombinationDetail () {
       alert("kkk");
     },
-    mnjyMore () {
-      console.log("kkk");
-    },
     cgdsMore (params) {
-      console.log(params);
-      // this.$router.push({
-      //   name:'My'
-      // })
+      // console.log(params);
+      this.$router.push({
+        name: 'Com'
+      })
     },
     init () {
       Promise.all([this.F700108(), this.F700105(), this.getRankList(), this.F700110()])

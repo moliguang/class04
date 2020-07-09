@@ -1,6 +1,6 @@
 <template>
   <div class="pub_header">
-    <div class="pub_header_back">
+    <div class="pub_header_back" @click="back">
       <img class="pub_header_back_img" src="images/back.png" alt />
     </div>
     <div class="pub_header_btn">
@@ -22,6 +22,9 @@ export default {
     }
   },
   methods: {
+    back () {
+      this.$router.back();
+    },
     itemClick (currentIndex) {
       this.currentIndex = currentIndex;
       if (currentIndex === "1") {

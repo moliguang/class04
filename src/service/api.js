@@ -28,3 +28,9 @@ export const F700125 = params => axios.post('/simulate/noauth/F700125', formUtil
 // 综合榜单
 export const F700126 = params => axios.post('/simulate/noauth/F700126', formUtil(params));// 获取首页广告图片
 export const F700110 = params => axios.post('/simulate/noauth/F700110', formUtil(params));
+export const F700116 = params => axios.post('/simulate/noauth/F700116', formUtil(params));
+//互联网登陆账户信息
+export const zztLoginByWebAccount = params => axios.post('/simulate/noauth/zztLoginByWebAccount', formUtil(params));
+// 获取本人账户信息
+export const F700104 = params => axios.post('/simulate/auth/F700104', formUtil(params));
+export const F700113 = params => axios.post('/simulate/noauth/F700113', formUtil(params));
