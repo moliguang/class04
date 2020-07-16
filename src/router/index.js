@@ -41,7 +41,10 @@ const routes = [
       {
         path: '/my/Subs',
         name: 'Subs',
-        component: () => import('../views/my/Subs.vue')
+        component: () => import('../views/my/Subs.vue'),
+        meta:{
+          title:'我的订阅'
+        }
       },
       {
         path: '/my/Fans',
