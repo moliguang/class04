@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -17,20 +16,10 @@ const routes = [
         component: () => import('../views/find/index.vue')
       },
       {
-        path: '/activity',
-        name: 'Activity',
-        component: () => import('../views/Activity.vue')
-      },
-      {
         path: '/my',
         name: 'My',
         component: () => import('../views/my/index.vue')
       },
-      // {
-      //   path: '/test',
-      //   name: 'My',
-      //   component: () => import('../views/my/indexCopy.vue')
-      // },
       {
         path: '/login',
         name: 'Login',
@@ -39,7 +28,10 @@ const routes = [
       {
         path: '/my/comb-list',
         name: 'CombList',
-        component: () => import('../views/my/CombList.vue')
+        component: () => import('../views/my/CombList.vue'),
+        meta:{
+          title:'我的组合'
+        }
       },
       {
         path: '/my/com',
@@ -58,22 +50,6 @@ const routes = [
       },
     ]
   }
-
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // },
-  // {
-  //   path: '/my',
-  //   name: 'My',
-  //   component: () => import('../views/My.vue')
-  // }
 ]
 
 const router = new VueRouter({

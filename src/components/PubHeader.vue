@@ -3,9 +3,12 @@
     <div class="pub_header_back" @click="back">
       <img class="pub_header_back_img" src="images/back.png" alt />
     </div>
-    <div class="pub_header_btn">
+    <div class="pub_header_btn" v-if="currentPath === '/find' || currentPath === '/my' ">
       <div @click="itemClick('/find')" class="btn" :class="{btn_active:currentPath === '/find'}">发现</div>
       <div @click="itemClick('/my')" class="btn" :class="{btn_active:currentPath === '/my'}">我的</div>
+    </div>
+    <div class="title" v-else>
+      {{ title }}
     </div>
     <div class="pub_header_share">
       <img class="pub_header_share_img" src="images/share_icon.png" alt />
@@ -24,6 +27,9 @@ export default {
   computed: {
     currentPath () {
       return this.$route.path;
+    },
+    title () {
+      return this.$store.getters.title;
     }
   },
   methods: {
@@ -77,6 +83,10 @@ export default {
   padding: 0px 15px 0 10px;
   height: 44px;
   color: #fff;
+  .title{
+    color: #fff;
+    font-size: 18px;
+  }
   &_back {
     width: 30px;
     height: 100%;

@@ -8,8 +8,13 @@ export default new Vuex.Store({
   state: {
     userInfo: {}, // 用户信息
     loginStatus: '0', // 0-游客 1-互联网账号登录
+    title:'', // 头部标题
   },
   mutations: {
+    SET_TITLE (state, title){ // 设置头部标题
+      state.title = title;
+      sessionStorage.setItem("TITLE", title);
+    },
     SET_LOGIN_STATUS (state, loginStatus) { // 切换登录状态
       state.loginStatus = loginStatus;
       sessionStorage.setItem("LOGIN_STATUS", loginStatus);
@@ -33,6 +38,13 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    title: (state) => {
+      let title = sessionStorage.getItem("TITLE");
+      if (title) {
+        state.title = title;
+      }
+      return state.title;
+    },
     loginStatus: (state) => { // 获取登录状态
       let loginStatus = sessionStorage.getItem("LOGIN_STATUS");
       if (loginStatus) {
