@@ -1,41 +1,60 @@
 <template>
   <div class="pub_header">
-    <div @click="back">
-      <img class="pub_header_back" src="images/back.png" alt />
+    <div class="pub_header_back" @click="back">
+      <img class="pub_header_back_img" src="images/back.png" alt />
     </div>
     <div class="pub_header_btn">
-      <div @click="itemClick('1')" class="btn" :class="{btn_active:currentIndex === '1'}">发现</div>
-      <div @click="itemClick('2')" class="btn" :class="{btn_active:currentIndex === '2'}">我的</div>
+      <div @click="itemClick('/find')" class="btn" :class="{btn_active:currentPath === '/find'}">发现</div>
+      <div @click="itemClick('/my')" class="btn" :class="{btn_active:currentPath === '/my'}">我的</div>
     </div>
-    <div>
-      <img class="pub_header_share" src="images/share_icon.png" alt />
+    <div class="pub_header_share">
+      <img class="pub_header_share_img" src="images/share_icon.png" alt />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Pub",
+  name: "PubHeader",
   data () {
     return {
-      currentIndex: "1"
+      path: "/find"
     };
+  },
+  computed: {
+    currentPath () {
+      return this.$route.path;
+    }
   },
   methods: {
     back () {
       this.$router.back();
     },
-    itemClick (currentIndex) {
-      // debugger;
-      this.currentIndex = currentIndex;
-      if (currentIndex === "1") {
-        this.$router.push({
-          name: "Find"
-        });
-      } else if (currentIndex === "2") {
-        this.$router.push({
-          name: "My"
-        });
+    itemClick (toPath) {
+
+      const { path } = this.$route;
+      if (path === toPath) {
+        // debugger;
+        return false;
+      } else {
+        // debugger;
+        if (toPath === '/my') {
+          const { loginStatus } = this.$store.getters;
+          if (loginStatus === '0') {
+            // 未登录
+            this.$router.push({
+              name: "Login"
+            })
+          } else {
+            this.$router.push({
+              name: "My"
+            })
+          }
+        } else if (toPath === '/find') {
+          this.$router.push({
+            name: "Find"
+          });
+        }
       }
     }
   }
@@ -44,21 +63,35 @@ export default {
 
 <style lang="scss">
 .pub_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  left: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-color: #3b7be6;
-  padding: 0px 10px;
+  padding: 0px 15px 0 10px;
   height: 44px;
   color: #fff;
   &_back {
-    width: 16px;
-    height: 24px;
+    width: 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &_img {
+      width: 16px;
+      height: 24px;
+    }
   }
   &_btn {
     display: flex;
     flex-direction: row;
+    justify-self: center;
     .btn {
       width: 56px;
       height: 28px;
@@ -78,8 +111,15 @@ export default {
     }
   }
   &_share {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    &_img {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 </style>

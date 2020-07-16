@@ -1,19 +1,19 @@
 <template>
   <div class="layout">
     <!-- <pub-header></pub-header> -->
-    <pub></pub>
+    <pubHeader></pubHeader>
     <router-view />
   </div>
 </template>
 
 <script>
-// import PubHeader from '@/components/PubHeader.vue';
-import Pub from '@/components/Pub.vue';
+import PubHeader from '@/components/PubHeader.vue';
+// import PubHeader from '@/components/Pubh.vue';
 export default {
   name: "Layout",
   components: {
-    // PubHeader,
-    Pub
+    PubHeader,
+    // Pub
   },
   methods: {
     // goFind () {
@@ -37,6 +37,7 @@ export default {
 
 <style lang="scss">
 .layout {
+  padding-top: 44px;
   .footer {
     width: 100%;
     position: fixed;

@@ -41,6 +41,7 @@ export default {
       });
       if (res.data.code === 0) {
         this.list = res.data.data || [];
+        this.list = this.list.concat(list);
         return res;
       }
     },

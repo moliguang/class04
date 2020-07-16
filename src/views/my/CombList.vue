@@ -34,7 +34,8 @@ export default {
     // 获取我的组合
     async F700116 () {
       // 获取保存在sessionStorage里面的缓存数据web_account;
-      const web_account = sessionStorage.getItem("web_account");
+      // const web_account = sessionStorage.getItem("web_account");
+      const { web_account } = this.$store.getters.getUserInfo;
       const params = {
         channel_type: "2",
         web_account: web_account,

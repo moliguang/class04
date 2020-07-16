@@ -34,3 +34,5 @@ export const zztLoginByWebAccount = params => axios.post('/simulate/noauth/zztLo
 // 获取本人账户信息
 export const F700104 = params => axios.post('/simulate/auth/F700104', formUtil(params));
 export const F700113 = params => axios.post('/simulate/noauth/F700113', formUtil(params));
+// 互联网账号登出
+export const signOut = params => axios.post('/simulate/noauth/signOut', formUtil(params));
