@@ -37,25 +37,26 @@ export default {
       this.$router.back();
     },
     itemClick (toPath) {
-
       const { path } = this.$route;
       if (path === toPath) {
-        // debugger;
         return false;
       } else {
-        // debugger;
         if (toPath === '/my') {
-          const { loginStatus } = this.$store.getters;
-          if (loginStatus === '0') {
-            // 未登录
-            this.$router.push({
-              name: "Login"
-            })
-          } else {
-            this.$router.push({
-              name: "My"
-            })
-          }
+          // const { loginStatus } = this.$store.getters;
+          // if (loginStatus === '0') {
+          //   // 未登录
+          //   this.$router.push({
+          //     name: "Login"
+          //   })
+          // } else {
+          //   this.$router.push({
+          //     name: "My"
+          //   })
+          // }
+
+          this.$router.push({
+            name: "My"
+          })
         } else if (toPath === '/find') {
           this.$router.push({
             name: "Find"

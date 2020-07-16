@@ -3,6 +3,10 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+/**
+ * title 头部标题
+ * auth  页面是否需要等权限  true-需要登录
+ */
 const routes = [
   {
     path: '/',
@@ -18,7 +22,10 @@ const routes = [
       {
         path: '/my',
         name: 'My',
-        component: () => import('../views/my/index.vue')
+        component: () => import('../views/my/index.vue'),
+        meta:{
+          auth: true
+        }
       },
       {
         path: '/login',
