@@ -30,6 +30,7 @@ export default {
     },
     title () {
       return this.$store.getters.title;
+      //取得数据
     }
   },
   methods: {
@@ -83,7 +84,7 @@ export default {
   padding: 0px 15px 0 10px;
   height: 44px;
   color: #fff;
-  .title{
+  .title {
     color: #fff;
     font-size: 18px;
   }
